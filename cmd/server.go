@@ -48,7 +48,7 @@ to quickly create a Cobra application.`,
 		router.HandleFunc("/in-memory", kvHandler.Create).Methods("POST")
 		router.HandleFunc("/mdb", mdbHandler.Fetch).Methods("GET")
 
-		err := http.ListenAndServe(":8000", router)
+		err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), router)
 		if err != nil {
 			panic(err)
 		}
