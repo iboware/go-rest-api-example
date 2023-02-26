@@ -1,30 +1,55 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
+	"context"
+	"fmt"
+	"net/http"
 	"os"
 
+	"github.com/gorilla/mux"
+	"github.com/iboware/go-rest-api-example/config"
+	"github.com/iboware/go-rest-api-example/db"
+	"github.com/iboware/go-rest-api-example/pkg/handler"
+	"github.com/iboware/go-rest-api-example/pkg/store"
 	"github.com/spf13/cobra"
 )
 
-
+var cfg = config.Config{}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "go-rest-api-example",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "Starts rest api server",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("starting server")
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		// Initialize Mongo Client
+		mongoClient := db.NewMongoDBConnection(ctx, cfg.MongoURI)
+		defer mongoClient.Disconnect(ctx)
+
+		// Initialize Mongo Store
+		mongoStore := store.NewMongoStore(mongoClient, cfg.Database, cfg.Table)
+
+		// Initialize handlers
+		kvHandler := handler.NewKeyValueHandler()
+		mdbHandler := handler.NewMDBHandler(ctx, mongoStore)
+
+		// Map handlers to routers
+		router := mux.NewRouter()
+		router.HandleFunc("/in-memory", kvHandler.Fetch).Methods("GET")
+		router.HandleFunc("/in-memory", kvHandler.Create).Methods("POST")
+		router.HandleFunc("/mdb", mdbHandler.Fetch).Methods("GET")
+
+		err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), router)
+		if err != nil {
+			panic(err)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -37,8 +62,5 @@ func Execute() {
 }
 
 func init() {
-
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	cfg.RegisterFlags(rootCmd.Flags())
 }
-
-
