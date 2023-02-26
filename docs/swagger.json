@@ -3,7 +3,7 @@
     "info": {
         "title": "Rest API Documentation",
         "contact": {},
-        "version": "1.0.0// @hostgetir-test.herokuapp.com"
+        "version": "1.0.0"
     },
     "basePath": "/",
     "paths": {
@@ -19,7 +19,7 @@
                         "type": "string",
                         "description": "Key",
                         "name": "key",
-                        "in": "formData",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -87,6 +87,17 @@
                     "MongoDB"
                 ],
                 "summary": "Fetch records",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MDBRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -105,6 +116,23 @@
         }
     },
     "definitions": {
+        "model.MDBRequest": {
+            "type": "object",
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "maxCount": {
+                    "type": "integer"
+                },
+                "minCount": {
+                    "type": "integer"
+                },
+                "startDate": {
+                    "type": "string"
+                }
+            }
+        },
         "model.MDBResponse": {
             "type": "object",
             "properties": {

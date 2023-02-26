@@ -1,5 +1,16 @@
 basePath: /
 definitions:
+  model.MDBRequest:
+    properties:
+      endDate:
+        type: string
+      maxCount:
+        type: integer
+      minCount:
+        type: integer
+      startDate:
+        type: string
+    type: object
   model.MDBResponse:
     properties:
       code:
@@ -30,14 +41,14 @@ definitions:
 info:
   contact: {}
   title: Rest API Documentation
-  version: 1.0.0// @hostgetir-test.herokuapp.com
+  version: 1.0.0
 paths:
   /in-memory:
     get:
       description: fetches cache entries in-memory
       parameters:
       - description: Key
-        in: formData
+        in: query
         name: key
         required: true
         type: string
@@ -83,6 +94,13 @@ paths:
   /mdb:
     get:
       description: fetch records by filtering
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.MDBRequest'
       responses:
         "200":
           description: OK

@@ -27,7 +27,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Key",
                         "name": "key",
-                        "in": "formData",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -95,6 +95,17 @@ const docTemplate = `{
                     "MongoDB"
                 ],
                 "summary": "Fetch records",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MDBRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -113,6 +124,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "model.MDBRequest": {
+            "type": "object",
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "maxCount": {
+                    "type": "integer"
+                },
+                "minCount": {
+                    "type": "integer"
+                },
+                "startDate": {
+                    "type": "string"
+                }
+            }
+        },
         "model.MDBResponse": {
             "type": "object",
             "properties": {
@@ -160,7 +188,7 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0.0// @hostgetir-test.herokuapp.com",
+	Version:          "1.0.0",
 	Host:             "",
 	BasePath:         "/",
 	Schemes:          []string{},

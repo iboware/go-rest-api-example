@@ -30,8 +30,10 @@ func (h *MDBHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // Fetch ... fetches the data in the provided MongoDB collection and returns the results
+//
 //	@Summary		Fetch records
 //	@Description	fetch records by filtering
+//	@Param			request	body	model.MDBRequest	true	"query params"
 //	@Tags			MongoDB
 //	@Success		200	{object}	model.MDBResponse
 //	@Failure		500	{object}	model.MDBResponse

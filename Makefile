@@ -1,7 +1,7 @@
 .PHONY: test
 test.unit:
 	echo "=> Running Tests"
-	go test -v ./...
+	go test -tags=unit -v ./...
 
 .PHONY: build
 build:
@@ -11,3 +11,10 @@ build:
 .PHONY: run
 run:
 	./bin/go-rest-api-example
+
+.PHONY: docs
+docs:
+	swag i
+	
+docs.fmt:
+	swag fmt

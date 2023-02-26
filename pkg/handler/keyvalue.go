@@ -59,7 +59,7 @@ func (h *KeyValueHandler) Create(w http.ResponseWriter, r *http.Request) {
 //	@Summary		fetches a cache entry
 //	@Description	fetches cache entries in-memory
 //	@Tags			In-Memory
-//	@Param			key	formData	string	true	"Key"
+//	@Param			key	query		string	true	"Key"
 //	@Success		200	{object}	model.Tuple
 //	@Failure		404	{string}	string
 //	@Failure		500	{string}	string
