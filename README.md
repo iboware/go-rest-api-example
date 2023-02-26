@@ -16,12 +16,12 @@ Flags:
 
 ```
 
-## Development
-
-### Requirements
+## Development Requirements
 
 * [Go v1.20](https://go.dev/dl/)
 * [Cobra CLI](https://github.com/spf13/cobra)
 * [Http Swagger](https://github.com/swaggo/http-swagger)
 
-### API Documentation
+## API Documentation
+
+[Swagger API Documentation](https://getir-test.herokuapp.com/swagger/index.html)
