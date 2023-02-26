@@ -21,7 +21,7 @@ func (c *Config) RegisterFlags(f *pflag.FlagSet) {
 		"MongoDB URI")
 	f.StringVarP(&c.Database, "database", "d", "getircase-study", "Database name")
 	f.StringVarP(&c.Table, "table", "t", "records", "Table Name")
-	f.IntVarP(&c.Port, "port", "p", 8000, "Port")
+	f.IntVarP(&c.Port, "port", "p", 8080, "Port")
 
 	// this is to set the port environmental variable provided by heroku.
 	port := os.Getenv("PORT")
