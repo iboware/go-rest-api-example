@@ -52,6 +52,8 @@ paths:
         name: key
         required: true
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -79,6 +81,8 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/model.Tuple'
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -92,15 +96,19 @@ paths:
       tags:
       - In-Memory
   /mdb:
-    get:
+    post:
+      consumes:
+      - application/json
       description: fetch records by filtering
       parameters:
       - description: query params
         in: body
-        name: request
+        name: query
         required: true
         schema:
           $ref: '#/definitions/model.MDBRequest'
+      produces:
+      - application/json
       responses:
         "200":
           description: OK

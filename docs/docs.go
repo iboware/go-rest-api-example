@@ -18,6 +18,9 @@ const docTemplate = `{
         "/in-memory": {
             "get": {
                 "description": "fetches cache entries in-memory",
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "In-Memory"
                 ],
@@ -57,6 +60,9 @@ const docTemplate = `{
                 "consumes": [
                     "application/json"
                 ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "In-Memory"
                 ],
@@ -89,8 +95,14 @@ const docTemplate = `{
             }
         },
         "/mdb": {
-            "get": {
+            "post": {
                 "description": "fetch records by filtering",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "MongoDB"
                 ],
@@ -98,7 +110,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "query params",
-                        "name": "request",
+                        "name": "query",
                         "in": "body",
                         "required": true,
                         "schema": {

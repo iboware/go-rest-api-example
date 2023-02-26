@@ -126,7 +126,7 @@ func TestMDBHandler_Fetch(t *testing.T) {
 				t.Fatal(err)
 				return
 			}
-			req := httptest.NewRequest("GET", "/mdb", bytes.NewReader(b))
+			req := httptest.NewRequest("POST", "/mdb", bytes.NewReader(b))
 
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()

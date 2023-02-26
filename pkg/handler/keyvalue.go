@@ -49,6 +49,7 @@ func (h *KeyValueHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 //	@Description	creates a cache entry in-memory
 //	@Tags			In-Memory
 //	@Accept			json
+//	@Produce		json
 //	@Param			tuple	body		model.Tuple	true	"Key Value data"
 //	@Success		200		{object}	model.Tuple
 //	@Failure		500		{object}	object
@@ -72,6 +73,7 @@ func (h *KeyValueHandler) Create(w http.ResponseWriter, r *http.Request) {
 //	@Summary		fetches a cache entry
 //	@Description	fetches cache entries in-memory
 //	@Tags			In-Memory
+//	@Produce		json
 //	@Param			key	query		string	true	"Key"
 //	@Success		200	{object}	model.Tuple
 //	@Failure		404	{string}	string
