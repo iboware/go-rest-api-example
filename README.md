@@ -25,3 +25,18 @@ Flags:
 ## API Documentation
 
 [Swagger API Documentation](https://rest-api-example.herokuapp.com/swagger/index.html)
+
+### Updating API documentation
+
+```bash
+make docs.fmt # format api documentation
+make docs # generate api documentation
+```
+
+## Testing
+
+All unit tests can be run by using Makefile
+
+```bash
+make test.unit
+```
