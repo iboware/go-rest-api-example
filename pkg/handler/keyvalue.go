@@ -75,5 +75,8 @@ func (h *KeyValueHandler) response(w http.ResponseWriter, status int, message st
 		return
 	}
 
-	json.NewEncoder(w).Encode(tuple)
+	if err := json.NewEncoder(w).Encode(tuple); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("could not serialize response"))
+	}
 }

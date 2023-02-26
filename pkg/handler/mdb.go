@@ -81,5 +81,8 @@ func (h *MDBHandler) response(w http.ResponseWriter, status int, message string,
 	}
 
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("could not serialize response"))
+	}
 }
