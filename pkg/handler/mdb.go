@@ -29,7 +29,7 @@ func (h *MDBHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 
 	switch r.Method {
-	case http.MethodGet:
+	case http.MethodPost:
 		h.Fetch(w, r)
 		return
 	default:
