@@ -28,6 +28,19 @@ func NewKeyValueHandler() *KeyValueHandler {
 
 func (h *KeyValueHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
+
+	switch r.Method {
+	case http.MethodGet:
+		h.Fetch(w, r)
+		return
+	case http.MethodPost:
+		h.Create(w, r)
+		return
+	default:
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("not found"))
+		return
+	}
 }
 
 // Create ... creates a new cache entry.

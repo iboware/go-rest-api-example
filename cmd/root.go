@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/go-chi/chi"
 	"github.com/iboware/go-rest-api-example/config"
 	"github.com/iboware/go-rest-api-example/db"
 	_ "github.com/iboware/go-rest-api-example/docs"
@@ -42,15 +41,12 @@ var rootCmd = &cobra.Command{
 		mdbHandler := handler.NewMDBHandler(ctx, mongoStore)
 
 		// Map handlers to routers
-		router := chi.NewRouter()
-		router.Get("/in-memory", kvHandler.Fetch)
-		router.Post("/in-memory", kvHandler.Create)
-		router.Get("/mdb", mdbHandler.Fetch)
-		router.Get("/swagger/*", httpSwagger.Handler(
-			httpSwagger.URL(fmt.Sprintf(":%d/swagger/doc.json", cfg.Port)),
-		))
+		mux := http.NewServeMux()
+		mux.Handle("/in-memory", kvHandler)
+		mux.Handle("/mdb", mdbHandler)
+		mux.Handle("/swagger/", httpSwagger.WrapHandler)
 
-		err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), router)
+		err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), mux)
 		if err != nil {
 			panic(err)
 		}

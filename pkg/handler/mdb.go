@@ -27,6 +27,16 @@ func NewMDBHandler(ctx context.Context, store store.Store) *MDBHandler {
 
 func (h *MDBHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
+
+	switch r.Method {
+	case http.MethodGet:
+		h.Fetch(w, r)
+		return
+	default:
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("not found"))
+		return
+	}
 }
 
 // Fetch ... fetches the data in the provided MongoDB collection and returns the results
