@@ -30,6 +30,16 @@ func (h *KeyValueHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 }
 
+// Create ... creates a new cache entry.
+//
+//	@Summary		creates a cache entry
+//	@Description	creates a cache entry in-memory
+//	@Tags			In-Memory
+//	@Accept			json
+//	@Param			tuple	body		model.Tuple	true	"Key Value data"
+//	@Success		200		{object}	model.Tuple
+//	@Failure		500		{object}	object
+//	@Router			/in-memory [post]
 func (h *KeyValueHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var t model.Tuple
 	if err := json.NewDecoder(r.Body).Decode(&t); err != nil {
@@ -44,6 +54,16 @@ func (h *KeyValueHandler) Create(w http.ResponseWriter, r *http.Request) {
 	h.response(w, http.StatusOK, "Success", &t)
 }
 
+// Fetch ... fetches the value of a key from in memory cache.
+//
+//	@Summary		fetches a cache entry
+//	@Description	fetches cache entries in-memory
+//	@Tags			In-Memory
+//	@Param			key	formData	string	true	"Key"
+//	@Success		200	{object}	model.Tuple
+//	@Failure		404	{string}	string
+//	@Failure		500	{string}	string
+//	@Router			/in-memory [get]
 func (h *KeyValueHandler) Fetch(w http.ResponseWriter, r *http.Request) {
 
 	if !r.URL.Query().Has("key") {
@@ -68,6 +88,7 @@ func (h *KeyValueHandler) Fetch(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// response formats body and header and writes it as json.
 func (h *KeyValueHandler) response(w http.ResponseWriter, status int, message string, tuple *model.Tuple) {
 	w.WriteHeader(status)
 	if status != http.StatusOK {

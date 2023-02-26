@@ -29,7 +29,13 @@ func (h *MDBHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 }
 
-// Fetch fetches the data in the provided MongoDB collection and returns the results
+// Fetch ... fetches the data in the provided MongoDB collection and returns the results
+//	@Summary		Fetch records
+//	@Description	fetch records by filtering
+//	@Tags			MongoDB
+//	@Success		200	{object}	model.MDBResponse
+//	@Failure		500	{object}	model.MDBResponse
+//	@Router			/mdb [get]
 func (h *MDBHandler) Fetch(w http.ResponseWriter, r *http.Request) {
 	var reqModel model.MDBRequest
 	if err := json.NewDecoder(r.Body).Decode(&reqModel); err != nil {

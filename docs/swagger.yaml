@@ -1,0 +1,98 @@
+basePath: /
+definitions:
+  model.MDBResponse:
+    properties:
+      code:
+        type: integer
+      msg:
+        type: string
+      records:
+        items:
+          $ref: '#/definitions/model.Record'
+        type: array
+    type: object
+  model.Record:
+    properties:
+      createdAt:
+        type: string
+      key:
+        type: string
+      totalCount:
+        type: integer
+    type: object
+  model.Tuple:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: Rest API Documentation
+  version: 1.0.0// @hostgetir-test.herokuapp.com
+paths:
+  /in-memory:
+    get:
+      description: fetches cache entries in-memory
+      parameters:
+      - description: Key
+        in: formData
+        name: key
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Tuple'
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: fetches a cache entry
+      tags:
+      - In-Memory
+    post:
+      consumes:
+      - application/json
+      description: creates a cache entry in-memory
+      parameters:
+      - description: Key Value data
+        in: body
+        name: tuple
+        required: true
+        schema:
+          $ref: '#/definitions/model.Tuple'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Tuple'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: creates a cache entry
+      tags:
+      - In-Memory
+  /mdb:
+    get:
+      description: fetch records by filtering
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.MDBResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.MDBResponse'
+      summary: Fetch records
+      tags:
+      - MongoDB
+swagger: "2.0"

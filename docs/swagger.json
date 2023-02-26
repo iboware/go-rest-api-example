@@ -1,0 +1,151 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Rest API Documentation",
+        "contact": {},
+        "version": "1.0.0// @hostgetir-test.herokuapp.com"
+    },
+    "basePath": "/",
+    "paths": {
+        "/in-memory": {
+            "get": {
+                "description": "fetches cache entries in-memory",
+                "tags": [
+                    "In-Memory"
+                ],
+                "summary": "fetches a cache entry",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Key",
+                        "name": "key",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Tuple"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "creates a cache entry in-memory",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "In-Memory"
+                ],
+                "summary": "creates a cache entry",
+                "parameters": [
+                    {
+                        "description": "Key Value data",
+                        "name": "tuple",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Tuple"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Tuple"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/mdb": {
+            "get": {
+                "description": "fetch records by filtering",
+                "tags": [
+                    "MongoDB"
+                ],
+                "summary": "Fetch records",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.MDBResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.MDBResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.MDBResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Record"
+                    }
+                }
+            }
+        },
+        "model.Record": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "totalCount": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Tuple": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

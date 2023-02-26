@@ -6,12 +6,14 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi"
 	"github.com/iboware/go-rest-api-example/config"
 	"github.com/iboware/go-rest-api-example/db"
+	_ "github.com/iboware/go-rest-api-example/docs"
 	"github.com/iboware/go-rest-api-example/pkg/handler"
 	"github.com/iboware/go-rest-api-example/pkg/store"
 	"github.com/spf13/cobra"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 var cfg = config.Config{}
@@ -40,10 +42,13 @@ var rootCmd = &cobra.Command{
 		mdbHandler := handler.NewMDBHandler(ctx, mongoStore)
 
 		// Map handlers to routers
-		router := mux.NewRouter()
-		router.HandleFunc("/in-memory", kvHandler.Fetch).Methods("GET")
-		router.HandleFunc("/in-memory", kvHandler.Create).Methods("POST")
-		router.HandleFunc("/mdb", mdbHandler.Fetch).Methods("GET")
+		router := chi.NewRouter()
+		router.Get("/in-memory", kvHandler.Fetch)
+		router.Post("/in-memory", kvHandler.Create)
+		router.Get("/mdb", mdbHandler.Fetch)
+		router.Get("/swagger/*", httpSwagger.Handler(
+			httpSwagger.URL(fmt.Sprintf(":%d/swagger/doc.json", cfg.Port)),
+		))
 
 		err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), router)
 		if err != nil {
