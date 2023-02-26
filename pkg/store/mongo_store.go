@@ -30,7 +30,7 @@ func (s *MongoStore) Find(ctx context.Context, filter primitive.D) ([]model.Reco
 		return nil, err
 	}
 
-	var results []model.Record
+	results := make([]model.Record, 0)
 	if err = cursor.All(ctx, &results); err != nil {
 		return nil, err
 	}
