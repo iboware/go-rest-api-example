@@ -125,6 +125,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/model.MDBResponse"
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.MDBResponse"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {

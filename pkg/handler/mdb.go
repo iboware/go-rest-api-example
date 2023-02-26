@@ -48,6 +48,7 @@ func (h *MDBHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 //	@Param			query	body	model.MDBRequest	true	"query params"
 //	@Tags			MongoDB
 //	@Success		200	{object}	model.MDBResponse
+//	@Failure		400	{object}	model.MDBResponse
 //	@Failure		500	{object}	model.MDBResponse
 //	@Router			/mdb [post]
 func (h *MDBHandler) Fetch(w http.ResponseWriter, r *http.Request) {
